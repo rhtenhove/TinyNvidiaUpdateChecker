@@ -6,10 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Fixed
+- DCH upgrade being broken since .NET 7 migration
 - Compatibility with WinRAR versions under v7
+- Potential crash if no GPU is found (Author @rhtenhove)
 
-### Added
-- Clear message when no Nvidia GPUs are detected
+### Removed
+- PCI Lookup API for GPU names
 
 ## [1.23.0] - 2026-02-23
 ### Changed
