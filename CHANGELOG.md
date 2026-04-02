@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Compatibility with WinRAR versions under v7
 
+### Removed
+- Experimental PCI Lookup API for looking up GPU names (not the same as New Metadata Handler)
+
 ## [1.23.0] - 2026-02-23
 ### Changed
 - Fallback to New Metadata Handler if GPU metadata was not found in Zenith repo

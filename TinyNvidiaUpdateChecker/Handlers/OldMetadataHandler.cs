@@ -217,33 +217,8 @@ namespace TinyNvidiaUpdateChecker.Handlers
                 }
             }
 
-            // If no drivers were found then query PCI Lookup API for each GPU
-            // TODO: PCI Lookup API requires seperate GPU name sanitation code which has not been developed yet
-            // See issue #215
-            Regex apiRegex = new(@"([A-Za-z0-9]+( [A-Za-z0-9]+)+)");
-
-            foreach (GPU gpu in gpuList.Where(x => !x.isValidated))
-            {
-                string url = $"https://www.pcilookup.com/api.php?action=search&vendor={gpu.vendorId}&device={gpu.deviceId}";
-                string rawData = MainConsole.ReadURL(url);
-                PCILookupClassRoot apiResponse = JsonConvert.DeserializeObject<PCILookupClassRoot>(rawData);
-
-                if (apiResponse != null && apiResponse.Count > 0)
-                {
-                    string rawName = apiResponse[0].desc;
-                    string rawVersion = gpu.version;
-
-                    if (apiRegex.IsMatch(rawName))
-                    {
-                        gpu.name = apiRegex.Match(rawName).Value.Trim();
-                        gpu.version = rawVersion.Substring(rawVersion.Length - 5, 5).Insert(3, ".");
-                        gpu.isValidated = true;
-                    }
-                }
-            }
-
-            // If experimental mode is enabled, do NOT use MetadataHandler, instead, MetadataHandlerExperimental is used,
-            // In that case, do not set any GPU as invalid, because it will not pass the code below.
+            // If experimental mode is enabled, do NOT use OldMetadataHandler. Instead, NewMetadataHandler is used, and
+            // don't set any GPU as invalid, because it will not pass the code below.
             if (!experimental)
             {
                 foreach (GPU gpu in gpuList.Where(x => x.isValidated))
@@ -307,7 +282,7 @@ namespace TinyNvidiaUpdateChecker.Handlers
                 }
             }
 
-            // If no GPU could be validated, then force recache once, and loop again.
+            // If no GPU could be validated, then force recaching of OldMetadataHandler once, and loop again.
             // This fixes issues related with outdated cache
             if (!forceRecache & !experimental)
             {
