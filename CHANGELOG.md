@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Compatibility with WinRAR versions under v7
 
 ### Removed
-- Experimental PCI Lookup API for looking up GPU names (not the same as New Metadata Handler)
+- PCI Lookup API for GPU names
 
 ## [1.23.0] - 2026-02-23
 ### Changed
